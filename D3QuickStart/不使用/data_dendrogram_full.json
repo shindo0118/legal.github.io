@@ -1,0 +1,27 @@
+{"children":[{"name":"W/ facility","children":[{"name":"mister_Hokkaido","value":622 ,"colname":"level3"},{"name":"mister_Aomori","value":423 ,"colname":"level3"},{"name":"mister_Iwate","value":209 ,"colname":"level3"},
+{"name":"mister_Fukushima","value":616 ,"colname":"level3"},
+{"name":"mister_Ibaraki","value":868 ,"colname":"level3"},
+{"name":"mister_Tokyo","value":0.2,"colname":"level3"},
+
+{"name":"mister_Kanagawa","value":55  ,"colname":"level3"},{"name":"mister_Toyama","value":26  ,"colname":"level3"},{"name":"mister_Shizuoka","value":279  ,"colname":"level3"},
+{"name":"mister_Aichi","value":389  ,"colname":"level3"},
+{"name":"mister_Osaka","value":127  ,"colname":"level3"},
+{"name":"mister_Okayama","value":577  ,"colname":"level3"},{"name":"mister_Hiroshima","value":155  ,"colname":"level3"},
+{"name":"mister_Ehime","value":162  ,"colname":"level3"},
+{"name":"mister_Fukuoka","value":495  ,"colname":"level3"},
+{"name":"mister_Miyazaki","value":219  ,"colname":"level3"}
+],"colname":"level2"},
+             
+
+
+             
+{"name":"W/O facility","children":[{"name":"mister_Miyagi","value":358 ,"colname":"level3"},{"name":"mister_Akita","value":102 ,"colname":"level3"},{"name":"mister_Yamagata","value":62 ,"colname":"level3"},{"name":"mister_Tochigi","value":507 ,"colname":"level3"},{"name":"mister_Gunma","value":235 ,"colname":"level3"},
+{"name":"mister_Saitama","value":44 ,"colname":"level3"},{"name":"mister_Chiba","value":415 ,"colname":"level3"},
+{"name":"mister_Nigata","value":116 ,"colname":"level3"},{"name":"mister_Ishikawa","value":74 ,"colname":"level3"},
+{"name":"mister_Fukui","value":19 ,"colname":"level3"},{"name":"mister_Yamanashi","value":58 ,"colname":"level3"},
+{"name":"mister_Nagano","value":126 ,"colname":"level3"},{"name":"mister_Gifu","value":37 ,"colname":"level3"},
+{"name":"mister_Mie","value":486 ,"colname":"level3"},{"name":"mister_Shiga","value":36 ,"colname":"level3"},
+{"name":"mister_Kyoto","value":56 ,"colname":"level3"},{"name":"mister_Hyogo","value":466 ,"colname":"level3"},{"name":"mister_Nara","value":74 ,"colname":"level3"},{"name":"mister_Wakayama","value":162 ,"colname":"level3"},{"name":"mister_Tottori","value":126 ,"colname":"level3"},{"name":"mister_Shimane","value":34 ,"colname":"level3"},{"name":"mister_Yamaguchi","value":351 ,"colname":"level3"},{"name":"mister_Tokushima","value":76 ,"colname":"level3"},{"name":"mister_Kagawa","value":71  ,"colname":"level3"},{"name":"mister_Kochi","value":79 ,"colname":"level3"},
+{"name":"mister_Saga","value":80 ,"colname":"level3"},{"name":"mister_Nagasaki","value":206 ,"colname":"level3"},{"name":"mister_Kumamoto","value":191 ,"colname":"level3"},
+{"name":"mister_Oita","value":351 ,"colname":"level3"},{"name":"mister_Kagoshima","value":519  ,"colname":"level3"},{"name":"mister_Okinawa","value":14 ,"colname":"level3"}
+],"colname":"level2"}],"name":"CEO"}

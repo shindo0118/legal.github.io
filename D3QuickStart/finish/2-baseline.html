@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+     <body style="background-color:#e7e6e9;">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Solar Cell Deposition</title>
+  </head>
+  <body>
+<a href="1-composition.html"style="font-size:20px;color:#b3a4d0;font-family: serif"><span>◀︎Previous</span></a>        &emsp; &emsp; &emsp; 
+<a href="3-geojson.html"style="font-size:20px;color:#b3a4d0;font-family: serif">Next▶︎</a>
+      
+      
+    <h1 style="font-family: serif">Solar Cell deposition rate </h1>
+    <h2 style="font-family: serif">(in case of 25 year life span)</h2>
+<!--    <p>You can use this folder as a starting point for your d3 project</p>-->
+
+
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+
+      
+      
+      
+      
+      
+      <!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{
+     color:#667899;
+   width:1060px;
+    margin:50px auto;
+font-family: serif;
+}
+</style>
+<!-- Load d3.js -->
+<script src="d3.v4.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz21"></div>
+
+
+      
+      
+      
+      
+      
+      <script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 660 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz21")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right+250)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//Read the data
+d3.csv("baseline.csv",function(data) {
+
+  // Add X axis --> it is a date format
+  var x = d3.scaleLinear()
+    .domain([2020,2050])
+    .range([ 0, width ]);
+    
+  svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .transition().duration(1000).call(d3.axisBottom(x))
+    ;
+    console.log(data);
+
+    
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 800000])
+    .range([ height, 0 ]);
+  svg.append("g")
+    .transition().duration(1000).call(d3.axisLeft(y));
+
+  // This allows to find the closest X index of the mouse:
+  var bisect = d3.bisector(function(d) { return d.x; }).left;
+
+  // Create the circle that travels along the curve of chart
+  var focus = svg
+    .append('g')
+    .append('circle')
+      .style("fill", "none")
+      .attr("stroke", "purple")
+      .attr("stroke-linejoin", "round")
+       .attr("stroke-linecap", "round")
+     .attr('r', 8)
+      .style("opacity", 0)
+
+  // Create the text that travels along the curve of chart
+  var focusText = svg
+    .append('g')
+    .append('text')
+      .style("opacity", 0)
+      .attr("text-anchor", "left")
+      .attr("alignment-baseline", "middle")
+
+  // Create a rect on top of the svg area: this rectangle recovers mouse position
+  svg
+    .append('rect')
+    .style("fill", "none")
+    .style("pointer-events", "all")
+    .attr('width', width)
+    .attr('height', height)
+    .on('mouseover', mouseover)
+    .on('mousemove', mousemove)
+    .on('mouseout', mouseout);
+
+  // Add the line
+  svg
+    .append("path")
+    .datum(data)
+    .attr("fill", "none")
+    .attr("stroke", "#667899")
+    .attr("stroke-linejoin", "round")
+    .attr("stroke-linecap", "round")
+    .attr("stroke-width", 3)
+        .attr("opacity", 0)
+.transition()
+  .duration(1000)
+    .attr("opacity", 1)
+
+    .attr("d", d3.line()
+              .curve(d3.curveMonotoneX)
+      .x(function(d) { return x(d.x) })
+      .y(function(d) { return y(d.y) })
+
+         )
+
+
+  // What happens when the mouse move -> show the annotations at the right positions.
+  function mouseover() {
+    focus.style("opacity", 1)
+    focusText.style("opacity",1)
+  }
+
+  function mousemove() {
+    // recover coordinate we need
+    var x0 = x.invert(d3.mouse(this)[0]);
+    var i = bisect(data, x0, 1);
+    selectedData = data[i]
+    focus
+      .attr("cx", x(selectedData.x))
+
+
+      .attr("cy", y(selectedData.y))
+    focusText
+      .html("---[year:" + selectedData.x + " - " + "ton " + selectedData.y+"]")
+      .attr("x", x(selectedData.x))
+      .attr("y", y(selectedData.y))
+    
+  }
+  function mouseout() {
+    focus.style("opacity", 0)
+    focusText.style("opacity", 0)
+  }
+
+})
+
+</script>
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <!--End of bootstrap scripts-->
+
+    <!--Add the d3 library before your d3 code-->
+<!--    <script src="https://d3js.org/d3.v5.min.js"></script>    -->
+    
+    <!--Link to your d3 code-->
+<!--    <script src="js/script.js"></script>-->
+
+  </body>
+</html>

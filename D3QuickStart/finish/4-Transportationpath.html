@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+     <body style="background-color:#e7e6e9;">
+ <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Solar Energy Generation by Prefecture in FY2018</title>
+  </head>
+  <body>
+
+<a href="3-geojson.html"style="font-size:20px;color:#b3a4d0;font-family: serif"><span>◀︎Previous</span></a>        &emsp; &emsp; &emsp; 
+<a href="5-prefecture.html"style="font-size:20px;color:#b3a4d0;font-family: serif">Next▶︎</a>       
+          
+      
+    <h1 style="font-family: serif">Solar Energy Generation by Prefecture in FY2018</h1>
+<!--    <p>You can use this folder as a starting point for your d3 project</p>-->
+
+
+
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{
+     color:#667899;
+   width:1060px;
+    margin:50px auto;
+font-family: serif;
+}
+</style>
+<!-- Load d3.js and the geo projection plugin -->
+<script src="d3.v4.js"></script>
+<script src="d3-geo-projection.v2.min.js"></script>
+
+<!-- Button -->
+
+<!-- Create an element where the map will take place -->
+<svg id="my_dataviz5" width="1700" height="690"></svg>
+      
+
+<script>
+
+
+    
+    
+// The svg
+var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
+
+// Map and projection
+var projection = d3.geoMercator()
+    .center([515, 37])                // GPS of location to zoom on
+    .scale(1700)                       // This is like the zoom
+    .translate([ width/2, height/2 ])
+
+// Create data for circles:
+var markers = [
+  {long: 501, lat: 43, group: "A", size: 62}, // Hokkaido
+  {long: 500.8, lat: 40.8, group: "A", size: 42}, // Aomori
+  {long: 501.3, lat: 39.9, group: "A", size: 21}, // Iwate
+  {long: 501, lat: 38.5, group: "B", size: 36}, // Miyagi
+   {long: 500.3, lat: 39.9, group: "B", size: 10}, // Akita
+  {long: 500.3, lat: 38.3, group: "B", size: 6}, // Yamagata
+  {long: 500.5, lat: 37.8, group: "A", size: 62}, // Fukushima
+  {long: 500.5, lat: 37.1, group: "A", size: 87}, // Ibaraki
+  {long: 500, lat: 36.7, group: "B", size: 51}, // Tochigi
+  {long: 499, lat: 36.6, group: "B", size: 24}, // Gunma
+  {long: 499.4, lat: 36, group: "B", size: 4}, // Saitama
+  {long: 500.1, lat: 35.6, group: "B", size: 42}, // Chiba
+  {long: 499.5, lat: 35.6, group: "A", size: 1}, // Tokyo
+  {long: 499.7, lat: 35.4, group: "A", size: 6}, // Kanagawa
+  {long: 499, lat: 37.6, group: "B", size: 12}, // Nigata
+  {long: 497.4, lat: 36.7, group: "A", size: 3}, // Toyama
+  {long: 496.5, lat: 36.5, group: "B", size: 7}, // Ishikawa
+  {long: 496.1, lat: 36, group: "B", size: 2}, // Fukui
+  {long: 498.4, lat: 35.7, group: "B", size: 6}, // Yamanashi
+  {long: 498.4, lat: 37.1, group: "B", size: 13}, // Nagano
+  {long: 496.4, lat: 35.4, group: "B", size: 4}, // Gifu
+  {long: 498.2, lat: 35, group: "A", size: 28}, // Shizuoka
+  {long: 496.9, lat: 35, group: "A", size: 39}, // Aichi
+  {long: 496.5, lat: 34.6, group: "B", size: 49}, // Mie
+  {long: 496, lat: 34.9, group: "B", size: 4}, // Shiga
+  {long: 495.5, lat: 35.1, group: "B", size: 6}, // Kyoto
+  {long: 495.2, lat: 34.8, group: "A", size: 13}, // Osaka
+  {long: 494.8, lat: 34.8, group: "B", size: 47}, // Hyogo
+  {long: 495.5, lat: 34.8, group: "B", size: 7}, // Nara
+  {long: 495.5, lat: 34.1, group: "B", size: 16}, // Wakayama
+  {long: 494, lat: 35.5, group: "B", size: 13}, // Tottori
+  {long: 493, lat: 35.5, group: "B", size: 3}, // Shimane
+  {long: 493.7, lat: 34.7, group: "A", size: 58}, // Okayama
+  {long: 492.6, lat: 34.4, group: "A", size: 16}, // Hiroshima
+  {long: 491.4, lat: 34.4, group: "B", size: 35}, // Yamaguhi
+  {long: 494.4, lat: 34, group: "B", size:8}, // Tokushima
+  {long: 494, lat: 34.1, group: "B", size: 7}, // Kagawa
+  {long: 492.8, lat: 33.8, group: "A", size: 16}, // Ehime
+  {long: 493.4, lat: 33.5, group: "B", size: 8}, // Kochi
+  {long: 490.6, lat: 33.7, group: "A", size: 50}, // Fukuoka
+  {long: 490, lat: 33.3, group: "B", size: 8}, // Saga
+  {long: 490, lat: 32.8, group: "B", size: 21}, // Nagasaki
+  {long: 490.4, lat: 32.5, group: "B", size: 19}, // Kumamoto
+  {long: 491.6, lat: 33, group: "B", size: 35}, // Oita
+  {long: 491.4, lat: 31.9, group: "A", size: 22}, // Miyazaki
+  {long: 490.4, lat: 31.6, group: "B", size: 52}, // Kagoshima
+
+]
+
+ var link = [
+  {type: "LineString", coordinates: [[501, 38.5], [501.3, 39.9]]},//Miyagi
+  {type: "LineString", coordinates: [[500.3, 39.9], [501.3, 39.9]]},//Akita
+  {type: "LineString", coordinates: [[500.3, 38.3], [500.5, 37.8]]},//Yamagata
+  {type: "LineString", coordinates: [[500, 36.7], [500.5, 37.1]]},//Tochigi
+  {type: "LineString", coordinates: [[499, 36.6], [500.5, 37.1]]},//Gunma
+  {type: "LineString", coordinates: [[499.4, 36], [499.5, 35.6]]},//Saitama
+  {type: "LineString", coordinates: [[500.1, 35.6], [499.5, 35.6]]},//Chiba
+  {type: "LineString", coordinates: [[499, 37.6], [500.5, 37.8]]},//Nigata
+  {type: "LineString", coordinates: [[496.5, 36.5], [497.4, 36.7]]},//Ishikawa
+  {type: "LineString", coordinates: [[496.1, 36], [497.4, 36.7]]},//Fukui
+  {type: "LineString", coordinates: [[498.4, 35.7], [498.2, 35]]},//Yamanashi
+  {type: "LineString", coordinates: [[498.4, 37.1], [497.4, 36.7]]},//Nagano
+  {type: "LineString", coordinates: [[496.4, 35.4], [496.9, 35]]},//Gifu
+  {type: "LineString", coordinates: [[496.5, 34.6], [496.9, 35]]},//Mie
+  {type: "LineString", coordinates: [[496, 34.9], [496.9, 35]]},//Shiga
+  {type: "LineString", coordinates: [[495.5, 35.1], [495.2, 34.8]]},//Kyoto
+  {type: "LineString", coordinates: [[494.8, 34.8], [495.2, 34.8]]},//Hyogo
+  {type: "LineString", coordinates: [[495.5, 34.8], [495.2, 34.8]]},//Nara
+  {type: "LineString", coordinates: [[495.5, 34.1], [495.2, 34.8]]},//Wakayama
+  {type: "LineString", coordinates: [[494, 35.5], [493.7, 34.7]]},//Tottori
+  {type: "LineString", coordinates: [[493, 35.5], [492.6, 34.4]]},//Shimane
+  {type: "LineString", coordinates: [[491.4, 34.4], [490.6, 33.7]]},//Yamaguchi
+  {type: "LineString", coordinates: [[494.5, 34], [495.2, 34.8]]},//Tokushima
+  {type: "LineString", coordinates: [[494, 34.1], [492.8, 33.8]]},//Kagawa
+  {type: "LineString", coordinates: [[493.4, 33.5], [492.8, 33.8]]},//Kochi
+  {type: "LineString", coordinates: [[490, 33.3], [490.6, 33.7]]},//Saga
+  {type: "LineString", coordinates: [[490, 32.8], [490.6, 33.7]]},//Nagasaki
+  {type: "LineString", coordinates: [[490.4, 32.5], [491.4, 31.9]]},//Kumamoto
+  {type: "LineString", coordinates: [[491.6, 33], [490.6, 33.7]]},//Oita
+  {type: "LineString", coordinates: [[490.4, 31.6], [491.4, 31.9]]},//Kagoshima
+          
+]
+ var link2 = [
+  {type: "MultiPoint", coordinates: [[501, 38.5], [501.3, 39.9]]},//Miyagi
+  {type: "MultiPoint", coordinates: [[500.3, 39.9], [501.3, 39.9]]},//Akita
+  {type: "MultiPoint", coordinates: [[500.3, 38.3], [500.5, 37.8]]},//Yamagata
+  {type: "MultiPoint", coordinates: [[500, 36.7], [500.5, 37.1]]},//Tochigi
+  {type: "MultiPoint", coordinates: [[499, 36.6], [500.5, 37.1]]},//Gunma
+  {type: "MultiPoint", coordinates: [[499.4, 36], [499.5, 35.6]]},//Saitama
+  {type: "MultiPoint", coordinates: [[500.1, 35.6], [499.5, 35.6]]},//Chiba
+  {type: "MultiPoint", coordinates: [[499, 37.6], [500.5, 37.8]]},//Nigata
+  {type: "MultiPoint", coordinates: [[496.5, 36.5], [497.4, 36.7]]},//Ishikawa
+  {type: "MultiPoint", coordinates: [[496.1, 36], [497.4, 36.7]]},//Fukui
+  {type: "MultiPoint", coordinates: [[498.4, 35.7], [498.2, 35]]},//Yamanashi
+  {type: "MultiPoint", coordinates: [[498.4, 37.1], [497.4, 36.7]]},//Nagano
+  {type: "MultiPoint", coordinates: [[496.4, 35.4], [496.9, 35]]},//Gifu
+  {type: "MultiPoint", coordinates: [[496.5, 34.6], [496.9, 35]]},//Mie
+  {type: "MultiPoint", coordinates: [[496, 34.9], [496.9, 35]]},//Shiga
+  {type: "MultiPoint", coordinates: [[495.5, 35.1], [495.2, 34.8]]},//Kyoto
+  {type: "MultiPoint", coordinates: [[494.8, 34.8], [495.2, 34.8]]},//Hyogo
+  {type: "MultiPoint", coordinates: [[495.5, 34.8], [495.2, 34.8]]},//Nara
+  {type: "MultiPoint", coordinates: [[495.5, 34.1], [495.2, 34.8]]},//Wakayama
+  {type: "MultiPoint", coordinates: [[494, 35.5], [493.7, 34.7]]},//Tottori
+  {type: "MultiPoint", coordinates: [[493, 35.5], [492.6, 34.4]]},//Shimane
+  {type: "MultiPoint", coordinates: [[491.4, 34.4], [490.6, 33.7]]},//Yamaguchi
+  {type: "MultiPoint", coordinates: [[494.5, 34], [495.2, 34.8]]},//Tokushima
+  {type: "MultiPoint", coordinates: [[494, 34.1], [492.8, 33.8]]},//Kagawa
+  {type: "MultiPoint", coordinates: [[493.4, 33.5], [492.8, 33.8]]},//Kochi
+  {type: "MultiPoint", coordinates: [[490, 33.3], [490.6, 33.7]]},//Saga
+  {type: "MultiPoint", coordinates: [[490, 32.8], [490.6, 33.7]]},//Nagasaki
+  {type: "MultiPoint", coordinates: [[490.4, 32.5], [491.4, 31.9]]},//Kumamoto
+  {type: "MultiPoint", coordinates: [[491.6, 33], [490.6, 33.7]]},//Oita
+  {type: "MultiPoint", coordinates: [[490.4, 31.6], [491.4, 31.9]]},//Kagoshima
+     
+] 
+;
+
+    
+    
+// Load external data and boot
+d3.json("world.geojson", function(data){
+
+    // Filter data
+    data.features = data.features.filter( function(d){return d.properties.name=="Japan"} )
+
+    // Create a color scale
+    var color = d3.scaleOrdinal()
+      .domain(["A", "B", "C" ])
+      .range([ "#402D54", "#D18975", "#000000"])
+
+    // Add a scale for bubble size
+    var size = d3.scaleLinear()
+      .domain([1,100])  // What's in the data
+      .range([ 4, 50])  // Size in pixel
+
+    // Draw the map
+    svg.append("g")
+        .selectAll("path")
+        .data(data.features)
+        .enter()
+        .append("path")
+          .attr("fill", "#667899")
+          .attr("d", d3.geoPath()
+              .projection(projection)
+          )
+        .style("stroke", "black")
+        .style("opacity", .5)
+
+    
+    
+    
+
+    // Add circles:
+   // svg
+      .selectAll("myCircles")
+      .data(markers)
+      .enter()
+      .append("circle")
+        .attr("class" , function(d){ return d.group })
+        .attr("cx", function(d){ return projection([d.long, d.lat])[0] })
+        .attr("cy", function(d){ return projection([d.long, d.lat])[1] })
+        .attr("r", function(d){ return size(d.size) })
+        .style("fill", function(d){ return color(d.group) })
+        .attr("stroke", function(d){ return color(d.group) })
+        .attr("stroke-width", 3)
+        .attr("fill-opacity", .4)
+
+    
+   
+    
+    
+    
+    
+// A path generator
+var path = d3.geoPath()
+    .projection(projection)
+    // Add the path
+svg.selectAll("myPath")
+      .data(link)
+      .enter()
+      .append("path")  
+    .attr("opacity", 0)
+.transition()
+  .duration(3000)
+    .attr("opacity", 1)
+
+    .attr("d", function(d){ return path(d)})
+        .style("fill", "none")
+        .style("stroke", "purple")
+        .style("stroke-opacity", 1)
+        .style("stroke-linecap", "round")
+        .style("stroke-width", 2)
+
+      // Add the circle
+svg.selectAll("myPath")
+      .data(link2)
+      .enter()
+      .append("path")  
+    .attr("opacity", 0)
+        .style("stroke-width", 50)  
+.transition()
+  .duration(1000)
+    .attr("opacity", 1)
+
+    .attr("d", function(d){ return path(d)})
+        .style("fill", "none")
+        .style("stroke", "purple")
+        .style("stroke-width", 1)  
+    
+    
+    
+    
+    
+    
+    // This function is gonna change the opacity and size of selected and unselected circles
+    function update(){
+
+      // For each check box:
+      d3.selectAll(".checkbox").each(function(d){
+        cb = d3.select(this);
+        grp = cb.property("value")
+
+        // If the box is check, I show the group
+        if(cb.property("checked")){
+          svg.selectAll("."+grp).transition().duration(1000).style("opacity", 1).attr("r", function(d){ return size(d.size) })
+
+        // Otherwise I hide it
+        }else{
+          svg.selectAll("."+grp).transition().duration(0).style("opacity", 0).attr("r", 0)
+        }
+      })
+    }
+
+    // When a button change, I run the update function
+    d3.selectAll(".checkbox").on("change",update);
+
+    // And I initialize it at the beginning
+    update()
+})
+
+</script>
+
+
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <!--End of bootstrap scripts-->
+
+    <!--Add the d3 library before your d3 code-->
+<!--    <script src="https://d3js.org/d3.v5.min.js"></script>    -->
+    
+    <!--Link to your d3 code-->
+<!--    <script src="js/script.js"></script>-->
+
+  </body>
+</html>

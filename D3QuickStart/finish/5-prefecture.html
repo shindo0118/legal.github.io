@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+     <body style="background-color:#e7e6e9;">
+
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Solar Cell Deposition after 20 years</title>
+  </head>
+  <body>
+
+<a href="4-Transportationpath.html"style="font-size:20px;color:#b3a4d0;font-family: serif"><span>◀︎Previous</span></a>        &emsp; &emsp; &emsp; 
+<a href="6-eachprefecture.html"style="font-size:20px;color:#b3a4d0;font-family: serif">Next▶︎</a>
+      
+      
+    <h1 style="font-family: serif">Solar Cell Deposition after 20 years</h1>
+    <h2 style="font-family: serif">(in case of 25 year life span)</h2>
+<!--    <p>You can use this folder as a starting point for your d3 project</p>-->
+
+
+
+      
+      
+    
+      
+      
+      
+      
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body{
+        color:#667899;
+width:1060px;
+    margin:50px auto;
+font-family: serif;
+}
+</style>
+<!-- Load d3.js -->
+<script src="d3.v4.js"></script>
+
+<!-- Add 2 buttons -->
+<button onclick="update('var1')">Deposition Amount (tons)</button>
+<button onclick="update('var2')">Transportation Length by automobile (km)</button>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz11"></div>
+
+      
+      
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 30, bottom: 70, left: 60},
+    width = 660 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz11")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+    
+    
+
+    
+// Initialize the X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding(0.2);
+var xAxis = svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+// Initialize the Y axis
+var y = d3.scaleLinear()
+  .range([ height, 0]);
+var yAxis = svg.append("g")
+  .attr("class", "myYaxis")
+
+
+// A function that create / update the plot for a given variable:
+function update(selectedVar) {
+
+  // Parse the Data
+  d3.csv("barplot_change_data.csv", function(data) {
+
+    // X axis
+    x.domain(data.map(function(d) { return d.group; }))
+    xAxis.transition().duration(1000).call(d3.axisBottom(x))
+  .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end");
+
+    // Add Y axis
+    y.domain([0, d3.max(data, function(d) { return +d[selectedVar] }) ]);
+    yAxis.transition().duration(1000).call(d3.axisLeft(y));
+
+    // variable u: map data to existing bars
+    var u = svg.selectAll("rect")
+      .data(data)
+
+    // update bars
+    u
+      .enter()
+      .append("rect")
+      .merge(u)
+      .transition()
+      .duration(1000)
+        .attr("x", function(d) { return x(d.group); })
+        .attr("y", function(d) { return y(d[selectedVar]); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d[selectedVar]); })
+        .attr("fill", "#667899")
+  })
+
+}
+
+
+    
+
+// Initialize plot
+update('var1')
+
+</script>
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>-->
+    <!--End of bootstrap scripts-->
+
+    <!--Add the d3 library before your d3 code-->
+<!--    <script src="https://d3js.org/d3.v5.min.js"></script>    -->
+    
+    <!--Link to your d3 code-->
+<!--    <script src="js/script.js"></script>-->
+
+  </body>
+</html>
